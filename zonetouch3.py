@@ -33,6 +33,9 @@ class zonetouch3_device:
         else:
             hex_state = "02"  # Hex for off
 
+        if state["percentage"] is None:
+            state["percentage"] = 00
+
         if state["percentage"] <= 15:
             hex_percentage = "0" + hex(state["percentage"])[2:]
         else:
@@ -40,8 +43,6 @@ class zonetouch3_device:
 
         # Craft and send Hex data
         self.send_zone_information(hex_state, hex_percentage)
-        # Check current State
-        self.get_state(self)
 
     def get_state(self):
         """Get current state of ZT3 device, filter out particular zone."""

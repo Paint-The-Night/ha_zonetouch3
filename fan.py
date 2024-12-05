@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from pprint import pformat
+import time
 from typing import Any
 
 import voluptuous as vol
@@ -134,14 +135,20 @@ class zonetouch_3(FanEntity):
     ) -> None:
         """Turn on the fan."""
         self.fan.state = {"state": True, "percentage": percentage}
+        time.sleep(1)
+        self.update()
 
     def set_percentage(self, percentage: int) -> None:
         """Set the speed percentage of the fan."""
         self.fan.state = {"state": None, "percentage": percentage}
+        time.sleep(1)
+        self.update() #Check current status
 
     def turn_off(self, **kwargs: Any) -> None:
         """Turn the fan off."""
         self.fan.state = {"state": False, "percentage": 0}
+        time.sleep(1)
+        self.update() #Check current status
 
     def update(self) -> None:
         """Get live state of individual fan."""
