@@ -1,4 +1,3 @@
-import argparse
 from collections import defaultdict
 import logging
 import socket
@@ -21,7 +20,7 @@ class zonetouch3_device:
 
     @property
     def state(self):
-        """Return current state.."""
+        """Return current state."""
         return self._state
 
     @state.setter
@@ -30,13 +29,19 @@ class zonetouch3_device:
         if state["state"] is None:
             hex_state = "80"  # Hex for percentage
         elif state["state"]:
-            hex_state = "03"
+            hex_state = "03"  # Hex for on
         else:
-            hex_state = "02"
+            hex_state = "02"  # Hex for off
 
-        percentage = hex(state["percentage"])[2:]  # add parentheses after lower
+        if state["percentage"] <= 15:
+            hex_percentage = "0" + hex(state["percentage"])[2:]
+        else:
+            hex_percentage = hex(state["percentage"])[2:]
+
         # Craft and send Hex data
-        self.send_zone_information(hex_state, percentage)
+        self.send_zone_information(hex_state, hex_percentage)
+        # Check current State
+        self.get_state(self)
 
     def get_state(self):
         """Get current state of ZT3 device, filter out particular zone."""
@@ -46,12 +51,10 @@ class zonetouch3_device:
         self._state["state"] = bool(state[0])
         self._state["percentage"] = int(state[1])
 
-
     # initial_zone_states, continuous_update_zone_states, and update_zone_states are all information processors.
     # they do the same thing but just interpret the data slightly differently, the setup for all 3 is fairly similar.
     def initial_zone_states(self, tcpDump):
-        """
-        At the moment the zones are hard coded in, without re-configuring my ZT3 I can't verify
+        """At the moment the zones are hard coded in, without re-configuring my ZT3 I can't verify
         which hexpair denotes the number of zones, my suspicion is pair 117 based on it being
         the only value in the header that is 7 when converted to ASCII. I'm sure ASCII is
         the correct choice as hexpairs 19-26 spell Polyaire and I could pull the name of each
@@ -167,8 +170,6 @@ class zonetouch3_device:
         return zoneStates
 
     def crc16_modbus(self, data_hex: str) -> str:
-        import struct
-
         # CRC16 checksum required to be appended to set commands with ZT3
         def calc_crc16(data: bytes, poly: int = 0xA001) -> int:
             crc = 0xFFFF

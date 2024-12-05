@@ -1,9 +1,10 @@
 """Platform for light integration."""
+
 from __future__ import annotations
 
 import logging
 from pprint import pformat
-from typing import Any, Optional
+from typing import Any
 
 import voluptuous as vol
 
@@ -47,37 +48,37 @@ def setup_platform(
         "zone": "0",
     }
     zone1 = {
-        "name": config[CONF_NAME] + "_zone1",
+        "name": config[CONF_NAME] + "_Zone1",
         "address": config[CONF_IP_ADDRESS],
         "port": config[CONF_PORT],
         "zone": "1",
     }
     zone2 = {
-        "name": config[CONF_NAME] + "_zone2",
+        "name": config[CONF_NAME] + "_Zone2",
         "address": config[CONF_IP_ADDRESS],
         "port": config[CONF_PORT],
         "zone": "2",
     }
     zone3 = {
-        "name": config[CONF_NAME] + "_zone3",
+        "name": config[CONF_NAME] + "_Zone3",
         "address": config[CONF_IP_ADDRESS],
         "port": config[CONF_PORT],
         "zone": "3",
     }
     zone4 = {
-        "name": config[CONF_NAME] + "_zone4",
+        "name": config[CONF_NAME] + "_Zone4",
         "address": config[CONF_IP_ADDRESS],
         "port": config[CONF_PORT],
         "zone": "4",
     }
     zone5 = {
-        "name": config[CONF_NAME] + "_zone5",
+        "name": config[CONF_NAME] + "_Zone5",
         "address": config[CONF_IP_ADDRESS],
         "port": config[CONF_PORT],
         "zone": "5",
     }
     zone6 = {
-        "name": config[CONF_NAME] + "_zone6",
+        "name": config[CONF_NAME] + "_Zone6",
         "address": config[CONF_IP_ADDRESS],
         "port": config[CONF_PORT],
         "zone": "6",
