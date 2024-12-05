@@ -43,7 +43,7 @@ def setup_platform(
     _LOGGER.info(pformat(config))
 
     zone0 = {
-        "name": config[CONF_NAME] + "_zone0",
+        "name": config[CONF_NAME] + "_Zone0",
         "address": config[CONF_IP_ADDRESS],
         "port": config[CONF_PORT],
         "zone": "0",
