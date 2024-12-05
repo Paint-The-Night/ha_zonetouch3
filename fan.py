@@ -109,6 +109,7 @@ class zonetouch_3(FanEntity):
         _LOGGER.info(pformat(fan))
         self.fan = zonetouch3_device(fan["address"], fan["port"], fan["zone"])
         self._name = fan["name"]
+        self._attr_unique_id = self._name
         # Default state
         self._state = False
         self._attr_percentage = 0
