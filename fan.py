@@ -44,8 +44,7 @@ def setup_platform(
     _LOGGER.info(pformat(config))
 
     # loop though zone amount, create/entities objects per zone
-    total_zones = config[CONF_ENTITIES] - 1
-    for zone_no in range(0, total_zones):
+    for zone_no in range(0, config[CONF_ENTITIES]):
         add_entities(
             [
                 zonetouch_3(

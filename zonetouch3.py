@@ -2,7 +2,7 @@ from collections import defaultdict
 import logging
 import socket
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger("zonetouch3")
 
 
 class zonetouch3_device:
@@ -56,11 +56,11 @@ class zonetouch3_device:
         zoneStates = defaultdict(list)
 
         # Find the starting pair
-        zoneStartingPair = bytePairs.index(str(40 + int(self._zone)))
+        # zoneStartingPair = bytePairs.index(str(40 + int(self._zone)))
         # another option
-        # zoneStartingPair = 123 + (22 * (int(self._zone)))
-        # if int(self._zone) >= 8:
-        #     zoneStartingPair += 1
+        zoneStartingPair = 123 + (22 * (int(self._zone)))
+        if int(self._zone) >= 8:
+            zoneStartingPair += 1
 
         zoneStates[self._zone].append(bytePairs[zoneStartingPair][0] == "4")
         zoneStates[self._zone].append(int(bytePairs[zoneStartingPair + 1], 16))
@@ -155,10 +155,10 @@ class zonetouch3_device:
             "79",
         ]
 
-        if int(self._zone) <= 15:
-            hex_data[18] = "0" + hex(int(self._zone))[2:]
-        else:
-            hex_data[18] = hex(int(self._zone))[2:]
+        # if int(self._zone) <= 15:
+        hex_data[18] = "0" + hex(int(self._zone))[2:]
+        # else:
+        #     hex_data[18] = hex(int(self._zone))[2:]
         hex_data[19] = state
         hex_data[20] = percentage
 
