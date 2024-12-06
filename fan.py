@@ -26,7 +26,7 @@ _LOGGER = logging.getLogger("zonetouch3")
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Optional(CONF_NAME, default="zonetouch3"): cv.string,
-        vol.Optional(CONF_ENTITIES, default=7): cv.positive_int,
+        vol.Optional(CONF_ENTITIES, default=8): cv.positive_int,
         vol.Required(CONF_IP_ADDRESS): cv.string,
         vol.Optional(CONF_PORT, default=7030): cv.port,
     }
@@ -44,7 +44,8 @@ def setup_platform(
     _LOGGER.info(pformat(config))
 
     # loop though zone amount, create/entities objects per zone
-    for zone_no in range(config[CONF_ENTITIES] - 1):
+    total_zones = config[CONF_ENTITIES] - 1
+    for zone_no in range(0, total_zones):
         add_entities(
             [
                 zonetouch_3(
@@ -60,7 +61,7 @@ def setup_platform(
 
 
 class zonetouch_3(FanEntity):
-    """Zone Touch entity / object."""
+    """Zone Touch entity."""
 
     _attr_icon = "mdi:air-conditioner"
     _attr_supported_features = (
@@ -70,8 +71,9 @@ class zonetouch_3(FanEntity):
     )
 
     def __init__(self, fan) -> None:
-        """Initialize an zonetouch 3 entity."""
+        """Initialize an zonetouch 3 entity/object."""
         _LOGGER.info(pformat(fan))
+        # Object
         self.fan = zonetouch3_device(fan["address"], fan["port"], fan["zone"])
         self._name = fan["name"]
         self._attr_unique_id = self._name
@@ -79,6 +81,7 @@ class zonetouch_3(FanEntity):
         self._state = False
         self._attr_percentage = 0
 
+    # Getters
     @property
     def name(self) -> str:
         """Return the display name of this fan."""
@@ -94,6 +97,7 @@ class zonetouch_3(FanEntity):
         """Return the current percentage."""
         return self._attr_percentage
 
+    # Setters
     def turn_on(
         self,
         percentage: int | None,

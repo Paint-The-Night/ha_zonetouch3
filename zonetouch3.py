@@ -55,7 +55,12 @@ class zonetouch3_device:
         ]  # splitting the hex data into byte pairs as this is how it should be treated.
         zoneStates = defaultdict(list)
 
-        zoneStartingPair = 123 + (22 * (int(self._zone)))
+        # Find the starting pair
+        zoneStartingPair = bytePairs.index(str(40 + int(self._zone)))
+        # another option
+        # zoneStartingPair = 123 + (22 * (int(self._zone)))
+        # if int(self._zone) >= 8:
+        #     zoneStartingPair += 1
 
         zoneStates[self._zone].append(bytePairs[zoneStartingPair][0] == "4")
         zoneStates[self._zone].append(int(bytePairs[zoneStartingPair + 1], 16))
@@ -114,8 +119,10 @@ class zonetouch3_device:
 
     def connect_ZT3(self):
         """Send payload and receive zone data."""
-        initialQueryData = self.send_hex_data(self._initialisation_data)
+        # Send payload and retrieve state data
         # Initialization data is what the ZT3 app sends to the ZT3 when opening communication.
+        initialQueryData = self.send_hex_data(self._initialisation_data)
+        # Filter that data to find zone state
         zone_state = self.initial_zone_states(initialQueryData)[self._zone]
         return zone_state
 
