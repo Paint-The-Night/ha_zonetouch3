@@ -10,7 +10,7 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant.components.fan import PLATFORM_SCHEMA, FanEntity, FanEntityFeature
-from homeassistant.const import CONF_IP_ADDRESS, CONF_NAME, CONF_PORT
+from homeassistant.const import CONF_ENTITIES, CONF_IP_ADDRESS, CONF_NAME, CONF_PORT
 from homeassistant.core import HomeAssistant
 
 # Import the device class from the component that you want to support
@@ -25,9 +25,10 @@ _LOGGER = logging.getLogger("zonetouch3")
 # Validation of the user's configuration
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
-        vol.Optional(CONF_NAME): cv.string,
+        vol.Optional(CONF_NAME, default="zonetouch3"): cv.string,
+        vol.Optional(CONF_ENTITIES, default=7): cv.positive_int,
         vol.Required(CONF_IP_ADDRESS): cv.string,
-        vol.Optional(CONF_PORT): cv.port,
+        vol.Optional(CONF_PORT, default=7030): cv.port,
     }
 )
 
@@ -42,60 +43,24 @@ def setup_platform(
     # Add devices
     _LOGGER.info(pformat(config))
 
-    zone0 = {
-        "name": config[CONF_NAME] + "_Zone0",
-        "address": config[CONF_IP_ADDRESS],
-        "port": config[CONF_PORT],
-        "zone": "0",
-    }
-    zone1 = {
-        "name": config[CONF_NAME] + "_Zone1",
-        "address": config[CONF_IP_ADDRESS],
-        "port": config[CONF_PORT],
-        "zone": "1",
-    }
-    zone2 = {
-        "name": config[CONF_NAME] + "_Zone2",
-        "address": config[CONF_IP_ADDRESS],
-        "port": config[CONF_PORT],
-        "zone": "2",
-    }
-    zone3 = {
-        "name": config[CONF_NAME] + "_Zone3",
-        "address": config[CONF_IP_ADDRESS],
-        "port": config[CONF_PORT],
-        "zone": "3",
-    }
-    zone4 = {
-        "name": config[CONF_NAME] + "_Zone4",
-        "address": config[CONF_IP_ADDRESS],
-        "port": config[CONF_PORT],
-        "zone": "4",
-    }
-    zone5 = {
-        "name": config[CONF_NAME] + "_Zone5",
-        "address": config[CONF_IP_ADDRESS],
-        "port": config[CONF_PORT],
-        "zone": "5",
-    }
-    zone6 = {
-        "name": config[CONF_NAME] + "_Zone6",
-        "address": config[CONF_IP_ADDRESS],
-        "port": config[CONF_PORT],
-        "zone": "6",
-    }
-
-    add_entities([zonetouch_3(zone0)])
-    add_entities([zonetouch_3(zone1)])
-    add_entities([zonetouch_3(zone2)])
-    add_entities([zonetouch_3(zone3)])
-    add_entities([zonetouch_3(zone4)])
-    add_entities([zonetouch_3(zone5)])
-    add_entities([zonetouch_3(zone6)])
+    # loop though zone amount, create/entities objects per zone
+    for zone_no in range(config[CONF_ENTITIES] - 1):
+        add_entities(
+            [
+                zonetouch_3(
+                    {
+                        "name": config[CONF_NAME] + "_Zone" + str(zone_no),
+                        "address": config[CONF_IP_ADDRESS],
+                        "port": config[CONF_PORT],
+                        "zone": str(zone_no),
+                    }
+                )
+            ]
+        )
 
 
 class zonetouch_3(FanEntity):
-    # Implement one of these methods.
+    """Zone Touch entity / object."""
 
     _attr_icon = "mdi:air-conditioner"
     _attr_supported_features = (
@@ -105,7 +70,7 @@ class zonetouch_3(FanEntity):
     )
 
     def __init__(self, fan) -> None:
-        """Initialize an zonetouch 3 device."""
+        """Initialize an zonetouch 3 entity."""
         _LOGGER.info(pformat(fan))
         self.fan = zonetouch3_device(fan["address"], fan["port"], fan["zone"])
         self._name = fan["name"]
@@ -136,20 +101,20 @@ class zonetouch_3(FanEntity):
     ) -> None:
         """Turn on the fan."""
         self.fan.state = {"state": True, "percentage": percentage}
-        time.sleep(1)
+        time.sleep(0.3)
         self.update()
 
     def set_percentage(self, percentage: int) -> None:
         """Set the speed percentage of the fan."""
         self.fan.state = {"state": None, "percentage": percentage}
-        time.sleep(1)
-        self.update() #Check current status
+        time.sleep(0.3)
+        self.update()  # Check current status
 
     def turn_off(self, **kwargs: Any) -> None:
         """Turn the fan off."""
         self.fan.state = {"state": False, "percentage": 0}
-        time.sleep(1)
-        self.update() #Check current status
+        time.sleep(0.3)
+        self.update()  # Check current status
 
     def update(self) -> None:
         """Get live state of individual fan."""
