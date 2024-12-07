@@ -22,6 +22,6 @@ fan:
 ```
 
 ## WARNING
-There is not yet any safety measure in place to make sure at lease one room is on before starting your aircon.
+There is not yet any safety measure in place to make sure at lease one room is opened before starting your aircon.
 Having all rooms toggled off and aircon running may cause damages.
-Use at your own risk.
+Make sure you have spill zones correctly configured to avoid any concerns. 
