@@ -1,6 +1,7 @@
 from collections import defaultdict
 import logging
 import socket
+import concurrent.futures
 
 LOGGER = logging.getLogger("zonetouch3")
 
@@ -166,5 +167,8 @@ class zonetouch3_device:
         checksum = self.hex_string(self.crc16_modbus(data))
         hex_data[22] = checksum[0:2]
         hex_data[23] = checksum[2:4]
-        response_hex = self.send_hex_data(self.hex_string(hex_data))
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future = executor.submit(self.send_hex_data, self.hex_string(hex_data))
+            response_hex = future.result()
         return response_hex
