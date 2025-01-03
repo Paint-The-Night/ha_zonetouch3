@@ -104,19 +104,16 @@ class zonetouch_3(FanEntity):
     ) -> None:
         """Turn on the fan."""
         self.fan.state = {"state": True, "percentage": percentage}
-        time.sleep(0.3)
         self.update()
 
     def set_percentage(self, percentage: int) -> None:
         """Set the speed percentage of the fan."""
         self.fan.state = {"state": None, "percentage": percentage}
-        time.sleep(0.3)
         self.update()  # Check current status
 
     def turn_off(self, **kwargs: Any) -> None:
         """Turn the fan off."""
         self.fan.state = {"state": False, "percentage": 0}
-        time.sleep(0.3)
         self.update()  # Check current status
 
     def update(self) -> None:
