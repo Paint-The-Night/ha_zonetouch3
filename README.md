@@ -15,25 +15,15 @@ The simplest method is to pull the integration via [HACS](https://hacs.xyz/docs/
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=GeoDerp&repository=ha_zonetouch3&category=integration)
 
-### Configuration.yaml
-After dowloading the integration, to enable the fan entities, append the following into your `/config/Configuration.yaml` file
+### Configuration via UI
+After downloading the integration, you can configure it via the Home Assistant UI.
 
-Configuration.yaml Example:
-```yaml
-fan:
-  - platform: zonetouch3
-    name: ZoneTouch3 # Optional change
-    entities: 8 # Optional change (zone amount)
-    port: 7030 # Optional change
-    ip_address: 192.168.1.10 # Change
-```
-
-### Reload
-
-Lastly, reload the YAML configuration:  
-press `e` key > `>reload all YAML configuration` > Enter  
+1. Go to `Configuration` in the Home Assistant UI.
+2. Click on `Integrations`.
+3. Click on the `+ Add Integration` button.
+4. Search for `Zone Touch 3` and follow the instructions to set it up.
 
 ## WARNING
-There is not yet any safety measure in place to make sure at lease one room is opened before starting your aircon.
+There is not yet any safety measure in place to make sure at least one room is opened before starting your aircon.
 Having all rooms toggled off and aircon running may cause damages.
 Make sure you have spill zones correctly configured to avoid any concerns. 

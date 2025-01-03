@@ -7,14 +7,11 @@ from pprint import pformat
 import time
 from typing import Any
 
-import voluptuous as vol
-
-from homeassistant.components.fan import PLATFORM_SCHEMA, FanEntity, FanEntityFeature
+from homeassistant.components.fan import FanEntity, FanEntityFeature
 from homeassistant.const import CONF_ENTITIES, CONF_IP_ADDRESS, CONF_NAME, CONF_PORT
 from homeassistant.core import HomeAssistant
 
 # Import the device class from the component that you want to support
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
@@ -22,30 +19,15 @@ from .zonetouch3 import zonetouch3_device
 
 _LOGGER = logging.getLogger("zonetouch3")
 
-# Validation of the user's configuration
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {
-        vol.Optional(CONF_NAME, default="zonetouch3"): cv.string,
-        vol.Optional(CONF_ENTITIES, default=8): cv.positive_int,
-        vol.Required(CONF_IP_ADDRESS): cv.string,
-        vol.Optional(CONF_PORT, default=7030): cv.port,
-    }
-)
 
-
-def setup_platform(
-    hass: HomeAssistant,
-    config: ConfigType,
-    add_entities: AddEntitiesCallback,
-    discovery_info: DiscoveryInfoType | None = None,
-) -> None:
-    """Set up the fan/s platform."""
-    # Add devices
+async def async_setup_entry(hass: HomeAssistant, config_entry, async_add_entities: AddEntitiesCallback) -> None:
+    """Set up the fan platform from a config entry."""
+    config = config_entry.data
     _LOGGER.info(pformat(config))
 
     # loop though zone amount, create/entities objects per zone
     for zone_no in range(0, config[CONF_ENTITIES]):
-        add_entities(
+        async_add_entities(
             [
                 zonetouch_3(
                     {
