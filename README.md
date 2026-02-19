@@ -1,6 +1,6 @@
 # Zone Touch 3 Home Assistant Integration
 
-![Zone Touch 3 logo](/img/logo.png)
+![Zone Touch 3 logo](img/logo.png)
 
 A modern local integration for Polyaire Zone Touch 3 controllers.
 
