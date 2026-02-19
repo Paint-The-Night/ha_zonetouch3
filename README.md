@@ -65,6 +65,7 @@ Use `zonetouch3.set_all_zones` to apply one target to all zones in a coordinated
 - The integration communicates locally only.
 - If your HVAC setup requires a spill zone, keep at least one zone open.
 - HA Brands assets for this integration are in `img/brands/custom_integrations/zonetouch3/`.
+- Branding uses the official Zone Touch 3 app icon source (`img/branding/SOURCE.md`).
 
 ## Known Limitations
 

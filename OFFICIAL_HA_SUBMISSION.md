@@ -61,7 +61,8 @@ Prepared branding files for a Brands PR are included here:
 - `img/brands/custom_integrations/zonetouch3/logo.png`
 - `img/brands/custom_integrations/zonetouch3/logo@2x.png`
 
-Source SVG files:
+Branding source files:
 
-- `img/branding/icon.svg`
-- `img/branding/logo.svg`
+- `img/branding/official_zt3_icon.webp`
+- `img/branding/official_zt3_icon.png`
+- `img/branding/SOURCE.md`
