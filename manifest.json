@@ -1,0 +1,17 @@
+{
+  "domain": "zonetouch3",
+  "name": "Zone Touch 3",
+  "codeowners": [
+    "@Paint-The-Night"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/Paint-The-Night/ha_zonetouch3",
+  "issue_tracker": "https://github.com/Paint-The-Night/ha_zonetouch3/issues",
+  "iot_class": "local_polling",
+  "integration_type": "hub",
+  "loggers": [
+    "custom_components.zonetouch3"
+  ],
+  "requirements": [],
+  "version": "1.0.3"
+}

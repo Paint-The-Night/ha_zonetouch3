@@ -1,0 +1,42 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Zone Touch 3",
+        "description": "Enter your Zone Touch 3 controller details.",
+        "data": {
+          "host": "Controller IP address",
+          "port": "Controller TCP port",
+          "name": "Integration name",
+          "scan_interval": "Polling interval (seconds)",
+          "socket_timeout": "Socket timeout (seconds)",
+          "enforce_min_open_zone": "Block closing the last open zone",
+          "command_gap": "Minimum delay between commands (seconds)",
+          "post_command_settle": "Delay before state refresh after commands (seconds)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the Zone Touch 3 controller",
+      "invalid_response": "Controller response did not match Zone Touch 3 protocol",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This Zone Touch 3 controller is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Zone Touch 3 options",
+        "data": {
+          "scan_interval": "Polling interval (seconds)",
+          "socket_timeout": "Socket timeout (seconds)",
+          "enforce_min_open_zone": "Block closing the last open zone",
+          "command_gap": "Minimum delay between commands (seconds)",
+          "post_command_settle": "Delay before state refresh after commands (seconds)"
+        }
+      }
+    }
+  }
+}

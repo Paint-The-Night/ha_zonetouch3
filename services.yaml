@@ -1,0 +1,32 @@
+set_all_zones:
+  name: Set All Zones
+  description: Apply one percentage target to all zones on a Zone Touch 3 controller.
+  fields:
+    entry_id:
+      name: Config Entry ID
+      description: Optional specific Zone Touch 3 config entry ID (leave empty to target all).
+      example: 01KHTGPS77MQAY22R28CZKDCRM
+      required: false
+      selector:
+        text:
+    percentage:
+      name: Target Percentage
+      description: Percentage to apply to every zone. Use 0 to turn all zones off.
+      example: 0
+      required: false
+      default: 0
+      selector:
+        number:
+          min: 0
+          max: 100
+          step: 1
+          unit_of_measurement: "%"
+          mode: slider
+    bypass_min_open_guard:
+      name: Bypass Min Open Guard
+      description: If true, allows all zones to close even when safety guard is enabled.
+      example: true
+      required: false
+      default: true
+      selector:
+        boolean:
