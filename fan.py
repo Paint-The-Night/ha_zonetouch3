@@ -29,6 +29,9 @@ async def async_setup_entry(
 
     entities: dict[int, ZoneTouch3ZoneFanEntity] = {}
     known_zone_indexes: set[int] = set()
+    zone_names: dict[int, str] = {
+        zone.index: zone.name for zone in coordinator.data.zones
+    }
 
     entity_registry = er.async_get(hass)
     known_prefix = f"{runtime_data.device_id}_zone_"
@@ -38,9 +41,27 @@ async def async_setup_entry(
         if not registry_entry.unique_id.startswith(known_prefix):
             continue
         try:
-            known_zone_indexes.add(int(registry_entry.unique_id.removeprefix(known_prefix)))
+            zone_index = int(registry_entry.unique_id.removeprefix(known_prefix))
         except ValueError:
             continue
+        known_zone_indexes.add(zone_index)
+
+        target_name = zone_names.get(zone_index)
+        if not target_name:
+            continue
+
+        # Existing entities may have been created before we had controller names,
+        # which leaves a generic original_name ("Zone N"). Migrate those to
+        # controller names without touching user-customized names.
+        if (
+            registry_entry.name is None
+            and registry_entry.original_name == f"Zone {zone_index + 1}"
+            and target_name != registry_entry.original_name
+        ):
+            entity_registry.async_update_entity(
+                registry_entry.entity_id,
+                name=target_name,
+            )
 
     @callback
     def _sync_entities() -> None:
@@ -94,7 +115,8 @@ class ZoneTouch3ZoneFanEntity(
         self._runtime_data = runtime_data
         self._zone_index = zone_index
         self._attr_unique_id = f"{runtime_data.device_id}_zone_{zone_index}"
-        self._attr_name = self._fallback_zone_name
+        zone = self._zone
+        self._attr_name = zone.name if zone is not None else self._fallback_zone_name
 
     @property
     def _fallback_zone_name(self) -> str:
