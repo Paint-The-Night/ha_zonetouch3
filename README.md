@@ -7,6 +7,7 @@ A modern local integration for Polyaire Zone Touch 3 controllers.
 ## What This Integration Provides
 
 - Config-entry setup (UI-based, no YAML required)
+- Auto-discovery of Zone Touch 3 controllers on local network (UDP probe)
 - Auto-discovery of zones and zone names from the controller
 - One fan entity per zone damper (open/close + percentage)
 - Coordinator-based polling with connection recovery

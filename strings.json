@@ -14,11 +14,19 @@
           "command_gap": "Minimum delay between commands (seconds)",
           "post_command_settle": "Delay before state refresh after commands (seconds)"
         }
+      },
+      "pick_discovered": {
+        "title": "Select discovered controller",
+        "description": "Multiple Zone Touch 3 controllers were found on your network. Select one to continue.",
+        "data": {
+          "discovered_device": "Discovered controller"
+        }
       }
     },
     "error": {
       "cannot_connect": "Cannot connect to the Zone Touch 3 controller",
       "invalid_response": "Controller response did not match Zone Touch 3 protocol",
+      "cannot_discover": "No Zone Touch 3 controller was discovered. Enter controller IP address manually.",
       "unknown": "Unexpected error"
     },
     "abort": {
